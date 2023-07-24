@@ -481,7 +481,7 @@ const annotations = {
                       Verification: {
                         type: 'string',
                         description: 'approved verification',
-                        example: 'your email is already verified you can now log in',
+                        example: 'your email is verified you can now log in',
                       },
                     }
                   },
@@ -520,7 +520,7 @@ const annotations = {
           },
           responses: {
             '200': {
-              description: 'Successful login',
+              description: 'Your email is now verified now u can  login',
               content: {
                 'application/json': {
                   schema: {
