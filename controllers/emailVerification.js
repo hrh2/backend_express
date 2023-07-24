@@ -44,7 +44,6 @@ router.post('/', async (req, res) => {
         user.IsEmailVerified = true
         await user.save();
         await otvToken.save();
-
         res.status(200).json({ message: `Hey ${user.username},Your Email: ${user.email} have been successfully verified. You can now log in.` });
     } catch (error) {
         console.error('Error verifying email:', error);

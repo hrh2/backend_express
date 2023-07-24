@@ -14,6 +14,7 @@ const signUpRoute=require('./controllers/signupApi')
 const loginRoute=require('./controllers/loginApi')
 const messagesRoute=require('./controllers/messages')
 const emailRoute=require('./controllers/emailVerification')
+const userProfileRoute=require('./controllers/userProfile')
 //configuration
 app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
@@ -29,7 +30,8 @@ app.use(cors())
 app.use('/v1/api/signup',signUpRoute)
 app.use('/v1/api/login',loginRoute)
 app.use('/v1/api/message',messagesRoute)
-app.use('/v1/api/emailVerification',messagesRoute)
+app.use('/v1/api/emailVerification',emailRoute)
+app.use('/v1/api/usersProfile',userProfileRoute)
 app.use('/api-docs',swaggerUI.serve,swaggerUI.setup(annotations))
 
 //establishing connection with database

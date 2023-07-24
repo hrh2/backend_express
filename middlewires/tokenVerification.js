@@ -13,12 +13,10 @@ function verifyToken(req, res, next) {
 }
 
 function extractUserIdFromToken(req) {
-     const authHeader = req.headers.authorization;
+     const authHeader = req.headers['authorization'];
      const token = authHeader ? authHeader.split(' ')[1] : null;
-
      const decodedToken = jwt.decode(token);
      const userId = decodedToken ? decodedToken._id : null;
-
      return userId;
 }
 

@@ -81,7 +81,7 @@ const annotations = {
                     password: {
                       type: 'string',
                       description: 'The password for the user',
-                      example: 'p@ssw0rd',
+                      example: 'p@ssw0rdHRH1',
                     },
                     fullName: {
                       type: 'string',
@@ -201,33 +201,14 @@ const annotations = {
           },
         },
       },
-      'v1/api/usersProfile/': {
+      '/v1/api/usersProfile': {
         get: {
-          tags: ['User Profiles'],
-          summary: 'Get User Profile',
+          tags: ["User Profiles"],
+          summary: 'Get The User Profile',
           security: [
             {
               bearerAuth: []
             }
-          ],
-          description: 'Fetches the user profile based on the unique user ID.',
-          parameters: [
-            {
-              name: 'id',
-              in: 'path',
-              description: 'ID of the User',
-              required: true,
-              content: {
-                'application/json': {
-                  schema: {
-                    type: 'array',
-                    items: {
-                      $ref: '#/components/schemas/User',
-                    },
-                  },
-                },
-              },
-            },
           ],
           responses: {
             '200': {
@@ -235,7 +216,10 @@ const annotations = {
               content: {
                 'application/json': {
                   schema: {
-                    $ref: '#/components/schemas/User',
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/User',
+                    },
                   },
                 },
               },
@@ -257,11 +241,6 @@ const annotations = {
             }
           ],
           description: 'Updates the user profile information.',
-          parameters: [
-            {
-              
-            },
-          ],
           requestBody: {
             content: {
               'application/json': {
@@ -270,7 +249,7 @@ const annotations = {
                   properties: {
                     image: {
                       type: 'string',
-                      description: 'the new updated user Image',
+                      description: 'the new Image ',
                       example: '1232i4uo4udbdfnjoiewhfncuedhfeuw123434uhrfewjrb4rsambk',
                     },
                     fullName: {
@@ -279,19 +258,19 @@ const annotations = {
                       example: 'Hirwa hope',
                     },
                     phoneNumber: {
-                      type: 'string',
-                      description: 'the new updated user phoneNumber',
+                      type: 'number',
+                      description: 'the new  phoneNumber',
                       example: '1232i4uo4u',
                     },
                     email: {
                       type: 'string',
-                      description: 'user email',
-                      example: 'yourcurrentemail@example.com //for confirming ',
+                      description: 'user email to confirm',
+                      example: 'johndoe@example.com ',
                     },
                     username: {
                       type: 'string',
                       description: 'username to confirm',
-                      example: 'hope23 //it is the current username to confirm',
+                      example: 'john123',
                     },
                     password: {
                       type: 'string',
@@ -345,6 +324,12 @@ const annotations = {
                   },
                 },
               },
+            },
+            '404': {
+              description: 'User not found',
+            },
+            '500': {
+              description: 'Internal Server Error',
             },
           },
         },
