@@ -453,7 +453,7 @@ const annotations = {
       '/v1/api/emailVerification/{token}':{
         get: {
           tags: ["Email Verification"],
-          summary: 'Get all messages',
+          summary: 'a get method to verify the email',
           security: [
             {
               bearerAuth: []
@@ -494,7 +494,7 @@ const annotations = {
       '/v1/api/emailVerification': {
         post: {
           tags: ["Email Verification"],
-          summary: 'Send new message',
+          summary: ' a post method for email verification',
           security: [
             {
               bearerAuth: []
