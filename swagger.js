@@ -135,6 +135,9 @@ const annotations = {
             '400': {
               description: 'Invalid request data',
             },
+            '500': {
+              description: 'Internal Server Error',
+            },
           },
         },
       },
@@ -275,7 +278,7 @@ const annotations = {
                     password: {
                       type: 'string',
                       description: 'password to confirm',
-                      example: '1232i4uo4u //it is the current password to confirm',
+                      example: '1232i4uo4u //it is the current password to be used for confirming',
                     },
                   },
                 },
@@ -353,6 +356,15 @@ const annotations = {
           responses: {
             '201': {
               description: 'Created',
+            },
+            '400': {
+              description: 'Invalid request',
+            },
+            '401': {
+              description: 'Invalid request data',
+            },
+            '500': {
+              description: 'Internal Server Error',
             },
           },
         },
@@ -534,16 +546,16 @@ const annotations = {
                 },
               },
             },
-            '400': {
-              description: 'Invalid token',
-            },
-            '401': {
-              description: 'Invalid token',
-            },
-            '500': {
-              description: 'invalid token',
-            },
           },
+        },
+          '400': {
+            description: 'Invalid request',
+        },
+        '401': {
+            description: 'Invalid token',
+        },
+        '500': {
+            description: 'Internal Server Error',
         },
       },
         },
