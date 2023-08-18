@@ -1,0 +1,567 @@
+ {
+    openapi: '3.0.0',
+    info: {
+      title: `Basic Apis`,
+      version: '1.0.0',
+      description: 'Any   System matching requirement',
+      contact: {
+        name: 'HRH',
+        email: 'gakundohope5@gmail.com',
+        url: 'https://www.instagram.com/__.hirwa.__2/',
+      },
+      social: {
+        instagram: 'https://www.instagram.com/__.hirwa.__2/',
+      },
+    },
+    servers: [
+        {
+          url: 'http://localhost:3500',
+        },
+      ],
+    'tags':[
+        {name:'Users'},
+        {name:'Email Verification'},
+        {name:'Messages'},
+      ],
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT"
+      }
+    },
+    schemas: {
+      Message: {
+        type: 'object',
+        properties: {
+          from: { type: 'string', required: true },
+          to: { type: 'string', default:"me" },
+          content: { type: 'string', required: true },
+          replyId: { type: 'string', default:"no reply" },
+          timeStamp: { type: 'Date', format: 'date',default:new Date},
+        },
+      },
+      User:{
+        type:'object',
+        properties:{
+          username: { type: 'string', required: true, example: 'Hope456', description: "the username of the User" },
+          fullName:{type: 'string', required: true, example:'Hope hirwa',description:"the name of the User"},
+          email: { type: 'string', required: true, example: 'Hopehirwa@gmail.com', description: "the email of the User" },
+          phoneNumber: { type: 'number', required: true, example: '764379882', description: "the phone number of the User" },
+          image: { type: 'string', required: false, example: 'Hope hirwa', description: "the name of the User" },
+          IsEmailVerified: { type: 'boolean', required: false, example: 'True', description: "the name of the User" },
+        }
+      }
+    },
+  },
+    paths: {
+      '/v1/api/signup': {
+        post: {
+          tags:["Users"],
+          summary: 'Create a new user',
+          description: 'Endpoint to create a new user',
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    username: {
+                      type: 'string',
+                      description: 'The username of the user',
+                      example: 'john123',
+                    },
+                    email: {
+                      type: 'string',
+                      description: 'The email address of the user',
+                      example: 'johndoe@example.com',
+                    },
+                    password: {
+                      type: 'string',
+                      description: 'The password for the user',
+                      example: 'p@ssw0rdHRH1',
+                    },
+                    fullName: {
+                      type: 'string',
+                      description: 'The full name of the user',
+                      example: 'John Doe',
+                    },
+                    phoneNumber: {
+                      type: 'string',
+                      description: 'The phone number of the user',
+                      example: '1234567890',
+                    },
+                    image: {
+                      type: 'string',
+                      description: 'Juss binary data',
+                      example: '12ewbcwnnewn3849wkdnej',
+                    },
+                  },
+                  required: ['username', 'email', 'password'],
+                },
+              },
+            },
+          },
+          responses: {
+            '201': {
+              description: 'User created successfully',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      _id: {
+                        type: 'string',
+                        description: 'The ID of the created user',
+                        example: '123456789',
+                      },
+                      username: {
+                        type: 'string',
+                        description: 'The username of the user',
+                        example: 'john123',
+                      },
+                      email: {
+                        type: 'string',
+                        description: 'The email address of the user',
+                        example: 'johndoe@example.com',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            '400': {
+              description: 'Invalid request data',
+            },
+            '500': {
+              description: 'Internal Server Error',
+            },
+          },
+        },
+      },
+      '/v1/api/login': {
+        post: {
+          tags: ["Users"],
+          summary: 'User login',
+          description: 'Endpoint for user login',
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    email: {
+                      type: 'string',
+                      description: 'The email address of the user',
+                      example: 'johndoe@example.com',
+                    },
+                    password: {
+                      type: 'string',
+                      description: 'The password for the user',
+                      example: 'p@ssw0rdHRH1',
+                    },
+                  },
+                  required: ['email', 'password'],
+                },
+              },
+            },
+          },
+          responses: {
+            '200': {
+              description: 'Successful login',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      token: {
+                        type: 'string',
+                        description: 'Access token for the authenticated user',
+                        example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OTAiLCJlbWFpbCI6ImpvaG5kb2VAZXhhbXBsZS5jb20iLCJpYXQiOjE2MzAwMzM1MjV9.TsfxzxLHf9vGS8NMh4oHXht0O-vW9w3U5XvW7_VJ18M',
+                      },
+                      message: {
+                        type: 'string',
+                        description: 'Login success message',
+                        example: 'Successful login',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            '400': {
+              description: 'Invalid request data',
+            },
+            '401': {
+              description: 'Invalid email or password',
+            },
+            '500': {
+              description: 'Internal Server Error',
+            },
+          },
+        },
+      },
+      '/v1/api/usersProfile': {
+        get: {
+          tags: ["User Profiles"],
+          summary: 'Get The User Profile',
+          security: [
+            {
+              bearerAuth: []
+            }
+          ],
+          responses: {
+            '200': {
+              description: 'OK',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/User',
+                    },
+                  },
+                },
+              },
+            },
+            '404': {
+              description: 'User not found',
+            },
+            '500': {
+              description: 'Internal Server Error',
+            },
+          },
+        },
+        put: {
+          tags: ['User Profiles'],
+          summary: 'Update User Profile',
+          security: [
+            {
+              bearerAuth: []
+            }
+          ],
+          description: 'Updates the user profile information.',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    image: {
+                      type: 'string',
+                      description: 'the new Image ',
+                      example: '1232i4uo4udbdfnjoiewhfncuedhfeuw123434uhrfewjrb4rsambk',
+                    },
+                    fullName: {
+                      type: 'string',
+                      description: 'the new updated user names',
+                      example: 'Hirwa hope',
+                    },
+                    phoneNumber: {
+                      type: 'number',
+                      description: 'the new  phoneNumber',
+                      example: '1232i4uo4u',
+                    },
+                    email: {
+                      type: 'string',
+                      description: 'user email to confirm',
+                      example: 'johndoe@example.com ',
+                    },
+                    username: {
+                      type: 'string',
+                      description: 'username to confirm',
+                      example: 'john123',
+                    },
+                    password: {
+                      type: 'string',
+                      description: 'password to confirm',
+                      example: '1232i4uo4u //it is the current password to be used for confirming',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          responses: {
+            '200': {
+              description: 'OK',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/User',
+                  },
+                },
+              },
+            },
+            '404': {
+              description: 'User not found',
+            },
+            '500': {
+              description: 'Internal Server Error',
+            },
+          },
+        },
+      },
+      '/v1/api/message': {
+        get: {
+          tags: ["Messages"],
+          summary: 'Get all messages',
+          security: [
+            {
+              bearerAuth: []
+            }
+          ],
+          responses: {
+            '200': {
+              description: 'OK',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/Message',
+                    },
+                  },
+                },
+              },
+            },
+            '404': {
+              description: 'User not found',
+            },
+            '500': {
+              description: 'Internal Server Error',
+            },
+          },
+        },
+        post: {
+          tags: ["Messages"],
+          summary: 'Send new message',
+          security: [
+            {
+              bearerAuth: []
+            }
+          ],
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Message',
+                },
+              },
+            },
+          },
+          responses: {
+            '201': {
+              description: 'Created',
+            },
+            '400': {
+              description: 'Invalid request',
+            },
+            '401': {
+              description: 'Invalid request data',
+            },
+            '500': {
+              description: 'Internal Server Error',
+            },
+          },
+        },
+      },
+      '/v1/api/message/{id}': {
+        get: {
+          tags: ["Messages"],
+          summary: 'Get a Message by ID',
+          security: [
+            {
+              bearerAuth: []
+            }
+          ],
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'ID of the Message',
+              required: true,
+              schema: {
+                type: 'string',
+              },
+            },
+          ],
+          responses: {
+            '200': {
+              description: 'OK',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/Message',
+                  },
+                },
+              },
+            },
+          },
+        },
+        put: {
+          tags: ["Messages"],
+          summary: 'Update a Message',
+          security: [
+            {
+              bearerAuth: []
+            }
+          ],
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              description: 'ID of the Message',
+              required: true,
+              schema: {
+                type: 'string',
+              },
+            },
+          ],
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Message',
+                },
+              },
+            },
+          },
+          responses: {
+            '200': {
+              description: 'OK',
+            },
+          },
+        },
+        delete: {
+          tags: ["Messages"],
+          summary: "Delete a Message by ID",
+          security: [
+            {
+              bearerAuth: []
+            }
+          ],
+          parameters: [
+            {
+              name: "id",
+              in: "path",
+              description: "ID of the Message",
+              required: true,
+              schema: {
+                type: "string"
+              }
+            }
+          ],
+          responses: {
+            200: {
+              description: "OK"
+            }
+          }
+        }
+      },
+      '/v1/api/emailVerification/{token}':{
+        get: {
+          tags: ["Email Verification"],
+          summary: 'a get method to verify the email',
+          security: [
+            {
+              bearerAuth: []
+            }
+          ],
+          parameters: [
+            {
+              name: 'token',
+              in: 'path',
+              description: 'token ',
+              required: true,
+              schema: {
+                type: 'string',
+              },
+            },
+          ],
+          responses: {
+            '200': {
+              description: 'OK',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      Verification: {
+                        type: 'string',
+                        description: 'approved verification',
+                        example: 'your email is verified you can now log in',
+                      },
+                    }
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      '/v1/api/emailVerification': {
+        post: {
+          tags: ["Email Verification"],
+          summary: ' a post method for email verification',
+          security: [
+            {
+              bearerAuth: []
+            }
+          ],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    tokenString: {
+                      type: 'string',
+                      description: 'add the code recieved on email',
+                      example: 'johndoe@example.com',
+                    },
+                  },
+                  required: ['tokenString'],
+                },
+              },
+            },
+          },
+          responses: {
+            '200': {
+              description: 'Your email is now verified now u can  login',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      token: {
+                        type: 'string',
+                        description: 'approval message',
+                        example: 'your account is now verified',
+                  },
+                },
+              },
+            },
+          },
+        },
+          '400': {
+            description: 'Invalid request',
+        },
+        '401': {
+            description: 'Invalid token',
+        },
+        '500': {
+            description: 'Internal Server Error',
+        },
+      },
+        },
+      },
+    },
+  };
+  
+  module.exports = { annotations };
+ 

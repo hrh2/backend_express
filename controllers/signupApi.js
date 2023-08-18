@@ -63,9 +63,9 @@ router.post('/', async (req, res) => {
       html: `<p>Hi ${req.body.fullName},<br />Please click the following link to verify your email: <a href="${verificationLink}">${verificationLink}</a> <br/>The verification Code is : ${otvToken} </p>`,
     };
     //first Send the email
-    await transporter.sendMail(mailOptions);
+     await transporter.sendMail(mailOptions);
     //then save the token
-    await otv.save();
+     await otv.save();
     //and save the new sure
     await user.save();
     //create a token
